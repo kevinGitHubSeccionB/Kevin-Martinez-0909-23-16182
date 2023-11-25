@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Préstamos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Préstamos</h1>
+
+
+    <label for="monto">Monto del préstamo:</label>
+    <input type="number" id="monto" placeholder="Ingrese el monto">
+
+    <label for="cuotas">Número de cuotas (3, 6 o 9):</label>
+    <input type="number" id="cuotas" placeholder="Ingrese el número de cuotas">
+
+    <button onclick="calcularPrestamo()">Calcular</button>
+
+    <h2>Resultado del prestamo:</h2>
+    <div id="resultado"></div>
+
+    <script>
+        function calcularPrestamo() {
+            // Obtener los valores ingresados por el usuario
+            var monto = parseFloat(document.getElementById('monto').value);
+            var cuotas = parseInt(document.getElementById('cuotas').value);
+
+            // Validar que se hayan ingresado valores válidos
+            if (isNaN(monto) || isNaN(cuotas) || ![3, 6, 9].includes(cuotas)) {
+                alert("Ingrese montos y cuotas válidos. Solo se permiten 3, 6 o 9 cuotas.");
+                return;
+            }
+
+            // Calcular el interés simple
+            var porcentajeInteres;
+            if (cuotas === 3) {
+                porcentajeInteres = 2.5;
+            } else if (cuotas === 6) {
+                porcentajeInteres = 5;
+            } else {
+                porcentajeInteres = 10;
+            }
+
+            var tiempo = cuotas;
+            var interes = (monto * porcentajeInteres * tiempo) / 100;
+
+            // Aqui se calcula el monto a pagar mensual y el total con interés
+            var montoMensual = (monto + interes) / cuotas;
+            var totalPagar = monto + interes;
+
+            // Aqui se muestra el resultado al usuario
+            var resultadoHTML = `
+                <p>Monto a pagar mensual: $${montoMensual.toFixed(2)}</p>
+                <p>Porcentaje de interés: ${porcentajeInteres}%</p>
+                <p>Total a pagar por el préstamo: $${totalPagar.toFixed(2)}</p>
+            `;
+            document.getElementById('resultado').innerHTML = resultadoHTML;
+        }
+    </script>
+</body>
+</html>
